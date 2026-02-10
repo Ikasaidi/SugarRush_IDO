@@ -1,5 +1,6 @@
 import pigpio
 import time
+import datetime
 from statistics import median
 
 
@@ -114,20 +115,24 @@ try:
         # Train détecté
         if not train_present and below_count >= CONFIRM_N:
             train_present = True
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
             print("✅ Train détecté (proche)")
+            print(f"Current time: {current_time}")
+
             pi.set_PWM_dutycycle(gate01, closed_gates_pwm_01)
             pi.set_PWM_dutycycle(gate02, closed_gates_pwm_02)
-            time.sleep(2)
-
+            
         # Train parti (on met un petit hystérésis simple)
         if train_present and above_count >= CONFIRM_N:
             train_present = False
+
+            current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             print("✅ Train parti (loin)")
 
             pi.set_PWM_dutycycle(gate01, open_gates_pwm_01)
             pi.set_PWM_dutycycle(gate02, open_gates_pwm_02)
-            time.sleep(2)  # Attendre 2 secondes
-
+            
         time.sleep(0.1)
 
 except KeyboardInterrupt:

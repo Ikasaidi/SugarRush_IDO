@@ -10,7 +10,7 @@ picam2.configure(picam2.create_still_configuration())
 # Capture de l'image et enregistrement
 picam2.start_preview()
 time.sleep(2)  # Laisser à la caméra le temps de s'ajuster
-picam2.capture_file('/home/pi/projetFinal/photo.jpg')  # Sauvegarder l'image sur le bureau
+picam2.capture_file('/home/pi/photo.jpg')  # Sauvegarder l'image sur le bureau
 picam2.stop_preview()
 
 print("Photo prise et enregistrée !")
