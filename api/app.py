@@ -29,10 +29,6 @@ open_gates_pwm_02 = 10
 closed_gates_pwm_01 = 7.5
 closed_gates_pwm_02 = 5
 
-
-pi = pigpio.pi()
-
-
 pi = pigpio.pi()
 pi.set_mode(gate01, pigpio.OUTPUT)
 pi.set_PWM_frequency(gate01, FREQ)
