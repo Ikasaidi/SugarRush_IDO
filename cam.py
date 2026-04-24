@@ -1,16 +1,17 @@
 from picamera2 import Picamera2
 import time
 
-# Initialisation de la caméra
 picam2 = Picamera2()
 
-# Configurer la caméra pour la prise de photo
-picam2.configure(picam2.create_still_configuration())
+# Configuration photo
+config = picam2.create_still_configuration()
+picam2.configure(config)
 
-# Capture de l'image et enregistrement
-picam2.start_preview()
-time.sleep(2)  # Laisser à la caméra le temps de s'ajuster
-picam2.capture_file('/home/pi/projetFinal/photo.jpg')  # Sauvegarder l'image sur le bureau
-picam2.stop_preview()
+picam2.start()
+time.sleep(2)   # temps pour l’auto-exposition
+
+picam2.capture_file("/home/pi/photo1.jpg")
+
+picam2.stop()
 
 print("Photo prise et enregistrée !")
