@@ -9,7 +9,7 @@ import pigpio
 
 # -----------------------
 # CONFIG GPIO / CAPTEUR
-# -----------------------
+# ------------------------
 TRIG = 19
 ECHO = 26
 
@@ -29,7 +29,12 @@ open_gates_pwm_02 = 10
 closed_gates_pwm_01 = 7.5
 closed_gates_pwm_02 = 5
 
+# Connexion à pigpio
 pi = pigpio.pi()
+if not pi.connected:
+    print("Erreur de connexion à pigpio!")
+    exit(1)
+
 pi.set_mode(gate01, pigpio.OUTPUT)
 pi.set_PWM_frequency(gate01, FREQ)
 pi.set_PWM_range(gate01, 100)
@@ -43,13 +48,6 @@ pi.set_mode(ECHO, pigpio.INPUT)
 
 pi.write(TRIG, 0)
 time.sleep(0.05)
-
-# Valeurs de PWM pour ouvrir et fermer les barrières
-open_gates_pwm_01 = 12.5  # Pour gate01
-open_gates_pwm_02 = 10    # Pour gate02
-closed_gates_pwm_01 = 7.5
-closed_gates_pwm_02 = 5   # Inversée pour gate02
-
 
 state = {
     "distance_cm": None,
@@ -116,7 +114,6 @@ def open_gates():
     with lock:
         state["gate_state"] = "open"
 
-
 def sensor_loop():
     train_present = False
     below_count = 0
@@ -146,7 +143,6 @@ def sensor_loop():
             print(f"Current time: {current_time}")
             close_gates()
 
-
             with lock:
                 state["last_change_time"] = current_time
 
@@ -157,7 +153,6 @@ def sensor_loop():
             print("✅ Train parti (loin)")
             print(f"Current time: {current_time}")
             open_gates()
-          
 
             with lock:
                 state["last_change_time"] = current_time
@@ -193,8 +188,8 @@ def get_status():
 @app.route("/gates", methods=["POST"])
 def set_gates():
     data = request.get_json(silent=True) or {}
-    mode = data.get("mode")
 
+    mode = data.get("mode")  # On récupère la valeur de "mode" dans le JSON
     if mode == "open":
         open_gates()
         return jsonify({"ok": True, "gate_state": "open"})

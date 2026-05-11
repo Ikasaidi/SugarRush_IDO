@@ -1,7 +1,7 @@
 import vlc
 import time
 
-player = vlc.MediaPlayer("/home/pi/projetFinal/son3.mp3")
+player = vlc.MediaPlayer("/home/pi/SugarRush_IDO/son2.mp3")
 
 player.play()
 

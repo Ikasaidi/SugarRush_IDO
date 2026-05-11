@@ -10,8 +10,8 @@ import time
 ### Si il est en dessous de 9  il s'arrete 
 ## filtrer les zeros 
 
-TRIG = 19
-ECHO = 26
+TRIG = 5
+ECHO = 6
 
 pi = pigpio.pi()
 
